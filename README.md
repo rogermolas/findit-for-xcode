@@ -1,6 +1,5 @@
-# Findit-for-xcode
+# Findit-for-xcode [![Build Status](https://travis-ci.org/rogermolas/findit-for-xcode.svg?branch=master)](https://travis-ci.org/rogermolas/findit-for-xcode)
   Findit is a plug-in for browsing stackoverflow website inside XCode IDE.
-[![Build Status](https://travis-ci.org/rogermolas/findit-for-xcode.svg?branch=master)](https://travis-ci.org/rogermolas/findit-for-xcode)
 
 ## Support Xcode Versions
   - Xcode6
