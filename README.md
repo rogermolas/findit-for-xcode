@@ -8,7 +8,7 @@
   - Xcode7
 
 ## Install
-  - Using [Alcatraz](https://github.com/alcatraz/Alcatraz)
+  - Using [Alcatraz]( https://github.com/alcatraz/Alcatraz )
 
 ## Manual build and install
   - Download source code and open Findit.xcodeproj with Xcode.
