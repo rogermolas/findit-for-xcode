@@ -66,7 +66,7 @@
 - (id)workspaceWindowControllers;
 - (id)splitViewItems;
 
-- (id)_closeButtonClicked:(id)arg1;
+- (void)_closeButtonClicked:(id)arg1;
 @end
 
 @interface NSObject (CompletingTextView)
@@ -191,7 +191,7 @@
         Class c = NSClassFromString(__CODE_SOURCE_VIEW___);
         [c aspect_hookSelector:@selector(menuForEvent:) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> info, NSEvent *event) {
             if (event.type == NSRightMouseDown) {
-                NSInvocation *invocation = info.originalInvocation;;
+                NSInvocation *invocation = info.originalInvocation;
                 NSMenu *contextMenu;
                 [invocation invoke];
                 [invocation getReturnValue:&contextMenu];
@@ -208,6 +208,10 @@
 }
 #endif
 
+- (BOOL)isOpen {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kIsBrowserEnabled];
+}
+
 - (void)setQueryString:(NSString *)queryString {
     if (_queryString != queryString)
         _queryString = queryString;
@@ -217,6 +221,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:NSApplicationDidFinishLaunchingNotification
                                                   object:nil];
+    
     NSMenuItem *menuItem = [[NSApp mainMenu]itemWithTitle:@"View"];
     if (menuItem) {
         [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
@@ -225,15 +230,29 @@
         [_actionMenuItem setTarget:self];
         [[menuItem submenu] addItem:_actionMenuItem];
     }
-}
-
-- (BOOL)isOpen {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kIsBrowserEnabled];
+    
+    NSMenuItem *menuTabItem = [[NSApp mainMenu]itemWithTitle:@"File"];
+    if (menuTabItem) {
+        NSMenuItem *item = [[menuTabItem submenu] itemAtIndex:10];
+        Class c = NSClassFromString(@__WORKSPACE_WINDOW__);
+        [c aspect_hookSelector:[item action] withOptions:AspectPositionBefore usingBlock:^(id<AspectInfo> info, NSEvent *event) {
+            if (item.enabled) {
+                if (_webView != nil && _isBrowserOpen) {
+                    if ([self currentTab_] != _currentTab) {
+                        [[_currentTab tabButton] removeObserver:self forKeyPath:__KVO_TAB_TITLE__];
+                        NSInvocation *invocation = info.originalInvocation;
+                        [invocation invoke];
+                    } else {
+                        [self beforeCloseSelector];
+                    }
+                }
+            }
+        } error:NULL];
+    }
 }
 
 - (void)querySearch:(NSString *)query {
     _isQuery = YES;
-   
     if (_webView != nil && _isBrowserOpen) {
         if ([self currentTab_] != _currentTab) {
             [(NSTabView *)[self tabView_]selectTabViewItem:_currentTab];
@@ -269,7 +288,6 @@
     } else if (!status && !_isBrowserOpen) {
         [self setworkSpaceBrowser];
     }
-    
     [[NSUserDefaults standardUserDefaults] setBool:!status forKey:kIsBrowserEnabled];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -309,7 +327,7 @@
     _currentFileName = [[_currentTab tabButton] title];
     [[_currentTab tabButton] setTitle:kBrowserTitle];
     [(NSButton *)[[_currentTab tabButton]closeButton] setTarget:self];
-    [(NSButton *)[[_currentTab tabButton]closeButton]setAction:@selector(beforeCloseSelector)];
+    [(NSButton *)[[_currentTab tabButton]closeButton] setAction:@selector(beforeCloseSelector)];
    
     // Observe changes for title property
     [[_currentTab tabButton] addObserver:self forKeyPath:__KVO_TAB_TITLE__ options:NSKeyValueObservingOptionNew context:nil];
@@ -363,6 +381,11 @@
 
 - (void)beforeCloseSelector {
     [[_currentTab tabButton]_closeButtonClicked:nil];
+    [self cleanUp];
+}
+
+- (void)cleanUp {
+    
     if (_webView != nil) {
         _webView = nil;
     }
