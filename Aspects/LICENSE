@@ -1,28 +1,6 @@
-# Findit-for-xcode
-  Findit is a plug-in for browsing stackoverflow website inside XCode IDE.
+The MIT License (MIT)
 
-## Support Xcode Versions
-  - Xcode6
-  - Xcode7
-
-## Install
-  - Using [Alcatraz](https://github.com/mneorr/Alcatraz)
-
-## Manual build and install
-  - Download source code and open Findit.xcodeproj with Xcode.
-  - Select "Edit Scheme" and set "Build Configuration" as "Release"
-  - Build it. It automatically installs the plugin into the correct directory.
-  - Restart Xcode. (Make sure that the Xcode process is terminated entirely)
-
-## Manual uninstall 
-  Delete the following directory:
-  rm /Library/Application Support/Developer/Shared/Xcode/Plug-ins/FindIt.xcplugin
-
-## License
-
-MIT License
-
-Copyright (c) 2016 Roger Molas
+Copyright (c) 2014-2015 Peter Steinberger, steipete@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
