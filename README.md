@@ -6,7 +6,7 @@
   - Xcode7
 
 ## Install
-  - Using [Alcatraz](https://github.com/mneorr/Alcatraz)
+  - Using [Alcatraz](https://github.com/alcatraz/Alcatraz)
 
 ## Manual build and install
   - Download source code and open Findit.xcodeproj with Xcode.
@@ -16,8 +16,9 @@
 
 ## Manual uninstall 
   Delete the following directory:
-  rm /Library/Application Support/Developer/Shared/Xcode/Plug-ins/FindIt.xcplugin
-
+  ```bash
+  rm -rf ~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/FindIt.xcplugin
+  ```
 ## License
 
 MIT License
