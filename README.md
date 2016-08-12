@@ -1,4 +1,5 @@
-# Findit-for-xcode [![Build Status](https://travis-ci.org/rogermolas/findit-for-xcode.svg?branch=master)](https://travis-ci.org/rogermolas/findit-for-xcode)
+# Findit-for-xcode [![Build Status](https://travis-ci.org/rogermolas/findit-for-xcode.svg?branch=master)](https://travis-ci.org/rogermolas/findit-for-xcode) ![Status](https://img.shields.io/badge/status-active-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/rogermolas/findit-for-xcode/blob/master/LICENSE)
+[![Contact](https://img.shields.io/badge/contact-@roger_molas-yellowgreen.svg?style=flat)](https://twitter.com/roger_molas)
   Findit is a plug-in for browsing stackoverflow website inside XCode IDE.
 
 ![ FindIt Demo ](https://github.com/rogermolas/findit-for-xcode/blob/master/demo.gif)
@@ -16,7 +17,7 @@
   - Build it. It automatically installs the plugin into the correct directory.
   - Restart Xcode. (Make sure that the Xcode process is terminated entirely)
 
-## Manual uninstall 
+## Manual uninstall
   Delete the following directory:
   ```bash
   rm -rf ~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/FindIt.xcplugin
